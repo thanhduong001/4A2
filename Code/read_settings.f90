@@ -51,7 +51,7 @@
 
 !     Calculate the inlet stagnation density "rostag"
 !     INSERT
-      rostag = bcs%pstag / (av%rgas * bcs%tstag)
+      real rostag = bcs%pstag / (av%rgas * bcs%tstag)
 
 !     Read the outlet static pressure and store into the "bcs" datatype
 !     INSERT
