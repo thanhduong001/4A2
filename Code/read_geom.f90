@@ -32,7 +32,7 @@
       read(1,*) geom%ni_b
       allocate(geom%x_b(geom%ni_b),geom%y_b(geom%ni_b))
       do j = 1, geom%ni_b
-          read(1,*) geom%x_b(i), geom%y_b(i)
+          read(1,*) geom%x_b(j), geom%y_b(j)
       end do
 !     Print the lengths of the curves that have been successfully read
       write(6,*) 'Read domain curves from file'
@@ -41,6 +41,7 @@
 
 !     Close the unit now everything has been read
 !     INSERT
+      close(1)
 
       end subroutine read_geom
 
