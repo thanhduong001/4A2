@@ -16,7 +16,7 @@
 !     Declare integers or any extra variables you need here
 !     INSERT
       real :: xstart, xend, ystart, yend
-      ! integer :: i, j
+      integer :: i, j
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
@@ -41,7 +41,7 @@
 !     "linspace", loop over the mesh in the i-direction and calculate the
 !     intermediate coordinates from a weighted sum of the two boundaries
 !     INSERT
-     do i = i, ni
+     do i = 1, ni
          xstart = g%x(i,1)
          xend = g%x(i,nj)
          ystart = g%y(i,1)
