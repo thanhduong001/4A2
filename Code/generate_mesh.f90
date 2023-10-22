@@ -15,8 +15,8 @@
 
 !     Declare integers or any extra variables you need here
 !     INSERT
-!      real :: xstart, xend, ystart, yend
-      integer :: i, j
+      real :: xstart, xend, ystart, yend
+      ! integer :: i, j
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
@@ -41,20 +41,20 @@
 !     "linspace", loop over the mesh in the i-direction and calculate the
 !     intermediate coordinates from a weighted sum of the two boundaries
 !     INSERT
-!      do i = i, ni
-!          xstart = g%x(i,1)
-!          xend = g%x(i,nj)
-!          ystart = g%y(i,1)
-!          yend = g%y(i,nj)
-!          call linspace(xstart, xend , g%x(i,:))
-!          call linspace(ystart, yend, g%y(i,:))
-!      end do
-      do i = 1, ni
+     do i = i, ni
+         xstart = g%x(i,1)
+         xend = g%x(i,nj)
+         ystart = g%y(i,1)
+         yend = g%y(i,nj)
+         call linspace(xstart, xend , g%x(i,:))
+         call linspace(ystart, yend, g%y(i,:))
+     end do
+      ! do i = 1, ni
         
-              g%x(i,:) = sj*g%x(i,1) + (1-sj)*g%x(i,nj)
-              g%y(i,:) = sj*g%y(i,1) + (1-sj)*g%y(i,nj)
+      !         g%x(i,:) = sj*g%x(i,1) + (1-sj)*g%x(i,nj)
+      !         g%y(i,:) = sj*g%y(i,1) + (1-sj)*g%y(i,nj)
          
-       end do
+      !  end do
 !      do i = 1, ni
 !          call linspace(g%x(i,1), g%x(i,nj) , g%x(i,:))
 !          call linspace(g%y(i,1), g%y(i,nj), g%y(i,:))
