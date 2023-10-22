@@ -16,7 +16,7 @@
 !     Declare integers or any extra variables you need here
 !     INSERT
       real :: xstart, xend, ystart, yend
-      ! integer :: i, j
+      integer :: i, j
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
