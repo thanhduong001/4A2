@@ -1,3 +1,5 @@
 # All compiler files
 *.o
 *.x
+*.bin
+*.csv
