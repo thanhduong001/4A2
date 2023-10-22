@@ -14,7 +14,7 @@
 !     Declare integers or any extra variables you need here
 !     INSERT
       ! REAL, DIMENSION(2) :: a, b
-      REAL, DIMENSION(ni, nj) :: Ax, Ay, Bx, By
+      real , dimension(:,:), allocatable :: Ax, Ay, Bx, By, li, lj, l_min
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
@@ -26,13 +26,9 @@
 !     the i and j-directions or in a vectorised way by indexing the coordinate
 !     arrays with lists of indices
 !     INSERT
-      ! do i=1, ni
-      !       do j=1, nj
-      !             a = (/g%x(i+1,j+1) - g%x(i,j), g%y(i+1,j+1) - g%y(i,j)/)
-      !             b = (/g%x(i,j+1) - g%x(i+1,j), g%y(i,j+1) - g%y(i+1,j)/)
-      !             g%area(i,j) = ABS(a(1)*b(2) - a(2)*b(1))
-      !       end do
-      ! end do
+      allocate(l_min(ni-1,nj-1))
+      allocate (Ax, Ay, Bx, By, li, lj, mold=l_min)
+
       Ax = g%x(2:ni,2:nj) - g%x(1:ni-1,1:nj-1)
       Ay = g%y(2:ni,2:nj) - g%y(1:ni-1,1:nj-1)
       Bx = g%x(1:ni-1,2:nj) - g%x(2:ni,1:nj-1)
@@ -62,8 +58,10 @@
 !     underflow and overflow errors. Then find the overal minimum value using
 !     both the "min" and "minval" functions.
 !     INSERT
-      l_min = min(hypot(g%lx_i(:)),g%ly_i(:) , hypot(g%lx_j(:),g%ly_j(:)))
-      g_lmin = min(l_min)
+      li = hypot(g%lx_i(1:ni-1,1:nj-1),g%ly_i(1:ni-1,1:nj-1))
+      lj = hypot(g%lx_j(1:ni-1,1:nj-1),g%ly_j(1:ni-1,1:nj-1))
+      l_min = min (li, lj)
+      g%l_min = minval(l_min)
 !
 !     Print the overall minimum length size that has been calculated
       write(6,*) 'Calculated cell areas and facet lengths'
