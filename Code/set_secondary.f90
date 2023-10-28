@@ -12,6 +12,8 @@
 
 !     Define any further variables you may need
 !     INSERT
+      real :: ro(g%ni,g%nj)
+      ro = g%ro
 
 !     The primary flow variables are "ro", "roe", "rovx" and "rovy", these are 
 !     the conserved quantities within the Euler equations. Write the code to
@@ -21,6 +23,10 @@
 !     loops as the operations can be performed elementwise, although you may
 !     wish to define some intermediate variables to improve readability.
 !     INSERT
+      g%vx = g%rovx / ro
+      g%vy = g%rovy / ro
+      g%hstag = g%roe / ro
+      g%p = ro * av%rgas * (g%hstag - 0.5*hypot(g%vx, g%vy))/av%cp
 
       end subroutine set_secondary
 

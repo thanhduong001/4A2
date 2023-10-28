@@ -20,6 +20,8 @@
 !     Variables required for the improved guess, you will need to add to these
       real :: l_temp(g%nj), l_i(g%ni)
 !     INSERT
+      real :: hypot_i(g%ni, g%nj-1), m_out, mach_lim, t_lim
+      real :: v_guess(g%ni), t_static(g%ni), ro_guess(g%ni)
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
@@ -65,15 +67,22 @@
 !         and y projected lengths with "hypot" and then sum them up in the
 !         second dimension with "sum". 
 !         INSERT
+          hypot_i = hypot(g%lx_i, g%ly_i)
+          do i=1,ni
+            l_i(i) = sum(hypot_i(i,:))
+          end do
 
 !         Use the exit temperature, density and velocity calculated for the 
 !         crude guess with "l_i" to estimate the mass flow rate at the exit
 !         INSERT
+          m_out = ro_out * l_i(ni) * v_out
 
 !         Set a limit to the maximum allowable mach number in the initial
 !         guess, call this "mach_lim", calculate the corresponding temperature,
 !         called "t_lim"
 !         INSERT
+          mach_lim = 1
+          t_lim = bcs%tstag/(1+0.5*(av%gam-1)*mach_lim**2)
 
 !         Now estimate the velocity and density at every "i = const" line, call 
 !         the velocity "v_guess(i)" and the density "ro_guess(i)":
@@ -84,19 +93,42 @@
 !             5. Calculate the density throughout "ro_guess(i)"
 !             6. Update the estimate of the velocity "v_guess(i)" 
 !         INSERT
+          do i=1, ni
+              v_guess(i) = m_out / (ro_out * l_i(i))
+              t_static(i) = bcs%tstag - 0.5*v_guess(i)**2/av%cp
+              t_static(i) = max(t_static(i), t_lim)
+              ro_guess(i) = bcs%rostag * (t_static(i)/bcs%tstag)**(1/(av%gam-1))
+              v_guess(i) = m_out / (l_i(i) * ro_guess(i))
+          end do
 
 !         Direct the calculated velocity to be parallel to the "j = const"
 !         gridlines for all values of i and j. This can be achieved with a 
 !         similar calculation to the "j = nj/2" one that was performed in the 
 !         crude guess. Then set all of ro, roe, rovx and rovy, note that roe 
 !         includes the kinetic energy component of the internal energy.
-!         INSERT 
+!         INSERT
+           g%ro = spread(ro_guess,2,nj)
+           j_mid = nj / 2
+           do i = 1,ni-1
+              lx = g%lx_j(i,j_mid); ly = g%ly_j(i,j_mid); 
+              l = hypot(lx,ly)
+              g%rovx(i,:) = g%ro(i,:) * v_guess(i) * ly / l
+              g%rovy(i,:) = -g%ro(i,:) * v_guess(i) * lx / l
+              g%roe(i,:) = ro_guess(i)*(av%cv * t_static(i) + 0.5*v_guess(i)**2)
+           end do
               
 !         Make sure the guess has been copied for the "i = ni" values too
 !         INSERT
+          g%rovx(ni,:) = g%rovx(ni-1,:)
+          g%rovy(ni,:) = g%rovy(ni-1,:)
+          g%roe(ni,:) = g%roe(ni-1,:)
 
 !         Print the first elements of the guess like for the crude guess
 !         INSERT
+          write(6,*) 'Guess 2 calculated'
+          write(6,*) '  At first point ro =', g%ro(1,1), 'roe =', &
+              g%roe(1,1), 'rovx =', g%rovx(1,1), 'rovy =', g%rovy(1,1)
+          write(6,*)
 
       end if
 

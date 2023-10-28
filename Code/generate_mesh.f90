@@ -49,16 +49,6 @@
          call linspace(xstart, xend , g%x(i,:))
          call linspace(ystart, yend, g%y(i,:))
      end do
-      ! do i = 1, ni
-        
-      !         g%x(i,:) = sj*g%x(i,1) + (1-sj)*g%x(i,nj)
-      !         g%y(i,:) = sj*g%y(i,1) + (1-sj)*g%y(i,nj)
-         
-      !  end do
-!      do i = 1, ni
-!          call linspace(g%x(i,1), g%x(i,nj) , g%x(i,:))
-!          call linspace(g%y(i,1), g%y(i,nj), g%y(i,:))
-!      end do
 !     In all of the test cases for the basic solver the the "j = 1" and "j = nj"
 !     boundaries are walls, for the extensions you may need to return to this
 !     and communicate the position of the walls to the solver in a more 

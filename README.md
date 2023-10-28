@@ -102,4 +102,15 @@ the convergence history, while "plot\_contours.py" shows the solution after a
 successful run. This script has some blank sections for you to complete before
 it will work.
 
+``````
+ssh -X td451@ts-access
+54BloodworthTergarParanjape
+cd ~/4A2/Code
+make clean
+make
+cd ~/4A2/Cases
 
+python ../Code/generate_case.py bump
+../Code/solver.x < input_bump.txt
+python ../Code/plot_guess.py bump
+``````

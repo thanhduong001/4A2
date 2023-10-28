@@ -29,6 +29,7 @@
             print *, "Negative area error"
             stop
       end if
+      write (6,*) minval(g%area)
 
 !     Next check that the sum of the edge vectors around every quadrilateral is 
 !     very nearly zero in both the x and y-coordinate directions. You can
@@ -39,15 +40,19 @@
       allocate(perimeterx(ni-2,nj-2))
       allocate(perimetery(ni-2,nj-2))
       perimeterx = g%lx_i(1:ni-2, 1:nj-2) &
-            + g%lx_i(2:ni-1, 1:nj-2) &
-            - g%lx_j(1:ni-2, 2:nj-1) &
+            + g%lx_j(1:ni-2, 2:nj-1) &
+            - g%lx_i(2:ni-1, 1:nj-2) &
             - g%lx_j(1:ni-2, 1:nj-2)
       perimetery = g%ly_i(1:ni-2, 1:nj-2) &
-            + g%ly_i(2:ni-1, 1:nj-2) &
-            - g%ly_j(1:ni-2, 2:nj-1) &
+            + g%ly_j(1:ni-2, 2:nj-1) &
+            - g%ly_i(2:ni-1, 1:nj-2) &
             - g%ly_j(1:ni-2, 1:nj-2)
-      if ((abs(maxval(perimeterx)) > tol) .or. abs(maxval(perimetery) > tol)) then
-            print *, "Open cell error"
+      if (abs(maxval(perimeterx)) > tol) then
+            print *, "Cell open in x "
+            stop
+      end if
+      if (abs(maxval(perimetery)) > tol) then
+            print *, "Cell open in y"
             stop
       end if
 

@@ -37,6 +37,10 @@
 !     "ro(:)", "pstag", "tstag" and "alpha". Also set "vx(1,:)", "vy(1,:)" and 
 !     "hstag(1,:)"
 !     INSERT
+      p(1,:)
+      rovx(1,:)
+      rovy(1,:)
+      roe(1,:)
 
 !     For the outlet boundary condition set the value of "p(ni,:)" to the
 !     specified value of static pressure "p_out" in "bcs"

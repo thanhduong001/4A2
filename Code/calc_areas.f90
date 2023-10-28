@@ -42,14 +42,14 @@
 !     the left hand side of the cell, the vector stored in position i,j points
 !     towards the centre of the i,j cell
 !     INSERT
-      g%lx_i = g%x(1:ni-1,2:nj) - g%x(1:ni-1,1:nj-1)
-      g%ly_i = g%y(1:ni-1,2:nj) - g%y(1:ni-1,1:nj-1)
+      g%lx_i = g%x(1:ni,2:nj) - g%x(1:ni,1:nj-1)
+      g%ly_i = g%y(1:ni,2:nj) - g%y(1:ni,1:nj-1)
 
 !     Now repeat the calculation for the project lengths on the "j=const"
 !     facets. 
 !     INSERT
-      g%lx_j = g%x(2:nj,1:ni-1) - g%x(1:ni-1,1:nj-1)
-      g%ly_j = g%x(2:nj,1:ni-1) - g%x(1:ni-1,1:nj-1)
+      g%lx_j = g%x(2:ni,1:nj) - g%x(1:ni-1,1:nj)
+      g%ly_j = g%y(2:ni,1:nj) - g%y(1:ni-1,1:nj)
 
 !     Find the minimum length scale in the mesh, this is defined as the length
 !     of the shortest side of all the cells. Call this length "l_min", it is used
@@ -58,8 +58,8 @@
 !     underflow and overflow errors. Then find the overal minimum value using
 !     both the "min" and "minval" functions.
 !     INSERT
-      li = hypot(g%lx_i(1:ni-1,1:nj-1),g%ly_i(1:ni-1,1:nj-1))
-      lj = hypot(g%lx_j(1:ni-1,1:nj-1),g%ly_j(1:ni-1,1:nj-1))
+      li = hypot(g%lx_i(1:ni-1,1:nj-1), g%ly_i(1:ni-1,1:nj-1))
+      lj = hypot(g%lx_j(1:ni-1,1:nj-1), g%ly_j(1:ni-1,1:nj-1))
       l_min = min (li, lj)
       g%l_min = minval(l_min)
 !
