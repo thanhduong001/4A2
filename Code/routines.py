@@ -21,6 +21,17 @@ def calc_secondary(av,b):
     # your post-processing, save them into the block "b" dictionary alongside
     # mesh coordinates and primary flow variables.
     # INSERT
+    # Get: velocities, Mach number, static and stagnation temperatures and pressures,
+    # flow angle, and entropy or enthalpy relative to a reference state
+    # From: ro, roe, rovx and rovy, av
+    # alpha = arctan(rovy/rovx)
+    # v_hypot2 = (rovx/ro)^2 + (rovy/ro)^2
+    # Tstatic = (roe/ro - v_hypot2/2)/av[cv]
+    # Tstag = Tstatic + 0.5*v_hypot2/av[cp]
+    # Pstatic = ro*av[rgas]*Tstatic
+    # Pstag = Pstatic*(Tstag/Tstatic)^(gam/(gam-1))
+    # Mach = sqrt(v_hypot2/(gam*rgas*Tstatic))
+    # entr = cv*ln(T2/T1)-R*ln(ro2/ro1)
 
     return b
 

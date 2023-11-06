@@ -105,6 +105,7 @@ it will work.
 ``````
 ssh -X td451@ts-access
 54BloodworthTergarParanjape
+
 cd ~/4A2/Code
 make clean
 make
@@ -113,4 +114,8 @@ cd ~/4A2/Cases
 python ../Code/generate_case.py bump
 ../Code/solver.x < input_bump.txt
 python ../Code/plot_guess.py bump
+
+python ../Code/generate_case.py bend
+../Code/solver.x < input_bend.txt
+python ../Code/plot_guess.py bend
 ``````

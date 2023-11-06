@@ -12,7 +12,7 @@
 
 !     Define any further variables you may need
 !     INSERT
-      real :: ro(g%ni,g%nj)
+      real :: ro(g%ni,g%nj), v_hypot(g%ni, g%nj), t_static(g%ni, g%nj)
       ro = g%ro
 
 !     The primary flow variables are "ro", "roe", "rovx" and "rovy", these are 
@@ -25,8 +25,10 @@
 !     INSERT
       g%vx = g%rovx / ro
       g%vy = g%rovy / ro
-      g%hstag = g%roe / ro
-      g%p = ro * av%rgas * (g%hstag - 0.5*hypot(g%vx, g%vy))/av%cp
+      v_hypot = hypot(g%vx, g%vy)
+      t_static = (g%roe/ro - v_hypot/2)/av%cv
+      ! g%p = ro * av%rgas * (g%hstag - 0.5*hypot(g%vx, g%vy))/av%cp
+      g%p = ro*av%rgas*t_static
 
       end subroutine set_secondary
 

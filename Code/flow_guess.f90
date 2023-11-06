@@ -59,6 +59,9 @@
               g%roe(1,1), 'rovx =', g%rovx(1,1), 'rovy =', g%rovy(1,1)
           write(6,*)
 
+
+!------------------------------------------------------------------------------
+
       else if(guesstype == 2) then 
 
 !         Calculate the length of each "i = const" line between the "j = 1" and 
@@ -107,14 +110,15 @@
 !         crude guess. Then set all of ro, roe, rovx and rovy, note that roe 
 !         includes the kinetic energy component of the internal energy.
 !         INSERT
-           g%ro = spread(ro_guess,2,nj)
-           j_mid = nj / 2
-           do i = 1,ni-1
-              lx = g%lx_j(i,j_mid); ly = g%ly_j(i,j_mid); 
-              l = hypot(lx,ly)
-              g%rovx(i,:) = g%ro(i,:) * v_guess(i) * ly / l
-              g%rovy(i,:) = -g%ro(i,:) * v_guess(i) * lx / l
-              g%roe(i,:) = ro_guess(i)*(av%cv * t_static(i) + 0.5*v_guess(i)**2)
+          g%ro = spread(ro_guess,2,nj)
+          do j=1, nj
+            do i=1,ni-1
+                  lx = g%lx_j(i,j); ly = g%ly_j(i,j); 
+                  l = hypot(lx,ly)
+                  g%rovx(i,j) = g%ro(i,j) * v_guess(i) * ly / l
+                  g%rovy(i,j) = -g%ro(i,j) * v_guess(i) * lx / l
+                  g%roe(i,j) = g%ro(i,j)*(av%cv * t_static(i) + 0.5*v_guess(i)**2)
+            end do
            end do
               
 !         Make sure the guess has been copied for the "i = ni" values too
@@ -128,6 +132,11 @@
           write(6,*) 'Guess 2 calculated'
           write(6,*) '  At first point ro =', g%ro(1,1), 'roe =', &
               g%roe(1,1), 'rovx =', g%rovx(1,1), 'rovy =', g%rovy(1,1)
+          write(6,*)
+          write(6,*) size(spread(ro_guess,2,nj),1), "/" &
+                  , size(spread(ro_guess,2,nj),2), "/" &
+                  , size(spread(ro_guess,1,nj),1), "/" &
+                  , size(spread(ro_guess,1,nj),2)
           write(6,*)
 
       end if

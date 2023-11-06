@@ -42,14 +42,22 @@
 !     the left hand side of the cell, the vector stored in position i,j points
 !     towards the centre of the i,j cell
 !     INSERT
-      g%lx_i = g%x(1:ni,2:nj) - g%x(1:ni,1:nj-1)
-      g%ly_i = g%y(1:ni,2:nj) - g%y(1:ni,1:nj-1)
+      ! g%lx_i = g%x(1:ni,2:nj) - g%x(1:ni,1:nj-1)
+      ! g%ly_i = g%y(1:ni,2:nj) - g%y(1:ni,1:nj-1)
+      !******* adk46 ********
+      g%lx_i = g%y(:,2:nj) - g%y(:,1:nj-1)
+      g%ly_i = g%x(:,1:nj-1) - g%x(:,2:nj)
+      !******* adk46 ********
 
 !     Now repeat the calculation for the project lengths on the "j=const"
 !     facets. 
 !     INSERT
-      g%lx_j = g%x(2:ni,1:nj) - g%x(1:ni-1,1:nj)
-      g%ly_j = g%y(2:ni,1:nj) - g%y(1:ni-1,1:nj)
+      ! g%lx_j = g%x(2:ni,1:nj) - g%x(1:ni-1,1:nj)
+      ! g%ly_j = g%y(2:ni,1:nj) - g%y(1:ni-1,1:nj)
+      !******* adk46 ********
+      g%lx_j = g%y(1:ni-1,:) - g%y(2:ni,:)
+      g%ly_j = g%x(2:ni,:) - g%x(1:ni-1,:)
+      !******* adk46 ********
 
 !     Find the minimum length scale in the mesh, this is defined as the length
 !     of the shortest side of all the cells. Call this length "l_min", it is used

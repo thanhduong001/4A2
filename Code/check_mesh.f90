@@ -37,24 +37,12 @@
 !     "maxval" and "abs" intrinsic functions.
 !     INSERT
       ! From bottom left
-      allocate(perimeterx(ni-2,nj-2))
-      allocate(perimetery(ni-2,nj-2))
-      perimeterx = g%lx_i(1:ni-2, 1:nj-2) &
-            + g%lx_j(1:ni-2, 2:nj-1) &
-            - g%lx_i(2:ni-1, 1:nj-2) &
-            - g%lx_j(1:ni-2, 1:nj-2)
-      perimetery = g%ly_i(1:ni-2, 1:nj-2) &
-            + g%ly_j(1:ni-2, 2:nj-1) &
-            - g%ly_i(2:ni-1, 1:nj-2) &
-            - g%ly_j(1:ni-2, 1:nj-2)
-      if (abs(maxval(perimeterx)) > tol) then
-            print *, "Cell open in x "
-            stop
-      end if
-      if (abs(maxval(perimetery)) > tol) then
-            print *, "Cell open in y"
-            stop
-      end if
+      dx_error = maxval(abs(g%lx_i(1:ni-1,1:nj-1) - g%lx_i(2:ni,1:nj-1) &
+          + g%lx_j(1:ni-1,1:nj-1) - g%lx_j(1:ni-1,2:nj)))
+      dy_error = maxval(abs(g%ly_i(1:ni-1,1:nj-1) - g%ly_i(2:ni,1:nj-1) &
+          + g%ly_j(1:ni-1,1:nj-1) - g%ly_j(1:ni-1,2:nj)))
+      write(6,*) 'Maximum vector addition error in x, y = ', dx_error, dy_error
+      if(dx_error > tol .or. dy_error > tol) stop
 
 !     It may be worthwhile to complete some other checks, the prevous call to
 !     the "write_output" subroutine has written a file that you can read and
