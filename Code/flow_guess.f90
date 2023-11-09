@@ -133,10 +133,10 @@
           write(6,*) '  At first point ro =', g%ro(1,1), 'roe =', &
               g%roe(1,1), 'rovx =', g%rovx(1,1), 'rovy =', g%rovy(1,1)
           write(6,*)
-          write(6,*) size(spread(ro_guess,2,nj),1), "/" &
-                  , size(spread(ro_guess,2,nj),2), "/" &
-                  , size(spread(ro_guess,1,nj),1), "/" &
-                  , size(spread(ro_guess,1,nj),2)
+      !     write(6,*) size(spread(ro_guess,2,nj),1), "/" &
+      !             , size(spread(ro_guess,2,nj),2), "/" &
+      !             , size(spread(ro_guess,1,nj),1), "/" &
+      !             , size(spread(ro_guess,1,nj),2)
           write(6,*)
 
       end if

@@ -30,7 +30,6 @@
 !     Determine whether to generate the mesh within this Fortran program or read
 !     it directly from a binary file written in Python
       if(av%ni /= -1) then
-
 !         Now the size of the grid is known, the space in memory can be 
 !         allocated within the grid type
           call allocate_arrays(av,g,bcs)

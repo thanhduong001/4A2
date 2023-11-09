@@ -27,7 +27,7 @@
       g%vy = g%rovy / ro
       v_hypot = hypot(g%vx, g%vy)
       t_static = (g%roe/ro - v_hypot/2)/av%cv
-      ! g%p = ro * av%rgas * (g%hstag - 0.5*hypot(g%vx, g%vy))/av%cp
+      g%hstag = av%cp*t_static + 0.5*v_hypot
       g%p = ro*av%rgas*t_static
 
       end subroutine set_secondary

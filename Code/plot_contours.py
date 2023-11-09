@@ -26,12 +26,17 @@ def main():
 
     # First complete the "calc_secondary" function within "routines.py" to
     # calculate static pressure and Mach number, and any others you want!
-    g = calc_secondary(av,g)    
+    g = calc_secondary(av,g)
 
     # Use the "cut_i", "mass_av" AND "area_av" functions to calculate the
     # reference pressures at the inlet plane and therefore the static pressure
     # coefficient
     # INSERT
+    inlet = cut_i(g,0)
+    inlet_p,_  = area_av(inlet,'Pstatic')
+    inlet_pstag,_ = mass_av(inlet,'Pstag')
+    g['cp'] = np.divide(np.subtract(g['Pstatic'], inlet_p), (inlet_pstag - inlet_p))
+    mach = g['v'] / (av['gam'] * av['rgas'] * g['Tstatic'])**0.5
 
     # Specify the parameters to plot
     fieldnames = ['cp', 'mach']; 
@@ -45,6 +50,8 @@ def main():
     
         # Set aspect ratio as equal and remove axes labels
         ax.set_aspect('equal',adjustable='box'); ax.axis('off')
+        ax.set_xlim(0,1.5)
+        ax.set_ylim(0,0.4)
  
         # Plot filled contour levels
         hc = ax.pcolormesh(g['x'],g['y'],g[name],shading='gouraud')
@@ -61,6 +68,8 @@ def main():
         plot_wall(ax,g)
 
     # Show all the plots
+    print(np.max(g['mach']))
+    # print(g['y'][10,:])
     plt.show()
 
     

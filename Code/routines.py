@@ -24,14 +24,16 @@ def calc_secondary(av,b):
     # Get: velocities, Mach number, static and stagnation temperatures and pressures,
     # flow angle, and entropy or enthalpy relative to a reference state
     # From: ro, roe, rovx and rovy, av
-    # alpha = arctan(rovy/rovx)
-    # v_hypot2 = (rovx/ro)^2 + (rovy/ro)^2
-    # Tstatic = (roe/ro - v_hypot2/2)/av[cv]
-    # Tstag = Tstatic + 0.5*v_hypot2/av[cp]
-    # Pstatic = ro*av[rgas]*Tstatic
-    # Pstag = Pstatic*(Tstag/Tstatic)^(gam/(gam-1))
-    # Mach = sqrt(v_hypot2/(gam*rgas*Tstatic))
-    # entr = cv*ln(T2/T1)-R*ln(ro2/ro1)
+
+    b['alpha'] = np.arctan(b['rovy']/b['rovx'])
+    v_hypot2 = (b['rovx']/b['ro'])**2 + (b['rovy']/b['ro'])**2
+    b['v'] = np.sqrt(v_hypot2)
+    b['Tstatic'] = (b['roe']/b['ro'] - v_hypot2/2)/av['cv']
+    b['Tstag'] = b['Tstatic'] + 0.5*v_hypot2/av['cp']
+    b['Pstatic'] = b['ro']*av['rgas']*b['Tstatic']
+    b['Pstag'] = b['Pstatic']*(b['Tstag']/b['Tstatic'])**av['gam']/(av['gam']-1)
+    b['mach'] = np.sqrt(v_hypot2/(av['gam']*av['rgas']*b['Tstatic']))
+    b['entr'] = av['cv']*np.log(b['Tstatic']/b['Tstatic'][0])-av['rgas']*np.log(b['ro']/b['ro'][0])
 
     return b
 

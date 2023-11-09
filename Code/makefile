@@ -5,7 +5,7 @@
 SaveName = $(USER)SaveSrc
 SaveName = SaveSrc
 
-OBS = types.o routines.o stencils.o solver.o read_settings.o allocate_arrays.o \
+OBS = types.o routines.o stencils_jvt.o solver.o read_settings.o allocate_arrays.o \
     read_geom.o generate_mesh.o read_mesh.o calc_areas.o write_output.o \
 	check_mesh.o flow_guess.o set_timestep.o set_secondary.o apply_bconds.o \
     euler_iteration.o check_conv.o check_stop.o

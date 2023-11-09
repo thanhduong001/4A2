@@ -55,7 +55,7 @@ python ../Code/generate_case.py bend
 ```
 it will show you a plot of the geometry and generate two input files
 "geom\_bend.txt" and "input\_bend.txt"
-
+``
 ## Running your code
 Move to the directory with your input files in a terminal tab and execute the
 solver. To run the code, type
@@ -103,19 +103,23 @@ successful run. This script has some blank sections for you to complete before
 it will work.
 
 ``````
-ssh -X td451@ts-access
-54BloodworthTergarParanjape
+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
 
 cd ~/4A2/Code
 make clean
 make
 cd ~/4A2/Cases
-
-python ../Code/generate_case.py bump
 ../Code/solver.x < input_bump.txt
-python ../Code/plot_guess.py bump
 
-python ../Code/generate_case.py bend
-../Code/solver.x < input_bend.txt
-python ../Code/plot_guess.py bend
+python ../Code/generate_case.py 
+python ../Code/plot_guess.py
+python ../Code/plot_contours.py
+python ../Code/plot_conv.py
+
+bend
+bump
+tunnel
+waves
+tube
+naca
 ``````
